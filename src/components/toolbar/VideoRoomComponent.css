@@ -15,23 +15,26 @@
 }
 @media only screen and (max-width: 1024px) {
   .flex-container, .OT_widget-containerDemo  {
-    width: 25% !important;
-    height: 35% !important;
+    width: 20% !important;
+    height: 25% !important;
     /* left: 35% !important; */
   }
 }
 @media only screen and (max-width: 720px) {
   .flex-container, .OT_widget-containerDemo  {
-    width: 35% !important;
-    height: 30% !important;
+    width: 20% !important;
+    height: 20% !important;
     /* left: 35% !important; */
   }
 }
 @media only screen and (max-width: 480px) {
   .flex-container, .OT_widget-containerDemo  {
-    width: 40% !important;
-    height: 25% !important;
+    width: 20% !important;
+    height: 10% !important;
     /* left: 35% !important; */
+  }
+  .nickname{
+    font-size: 10px !important;
   }
 }
 

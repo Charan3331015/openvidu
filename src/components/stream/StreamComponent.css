@@ -4,6 +4,7 @@
     position: absolute;
     z-index: 999;
     color: #ffffff;
+    font-size: 16px;
     /* added by  fede*/
 }
 .form-control {
@@ -101,8 +102,8 @@ video {
     min-width: 25% !important;
 }
 .OT_widget-containerDemo {
-    width: 25%;
-    height:35%;
+    width: 20%;
+    height:25%;
     /* top: 60%; */
     /* left: 70%; */
     /* right:5%; */

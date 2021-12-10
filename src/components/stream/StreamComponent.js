@@ -118,8 +118,8 @@ export default class StreamComponent extends Component {
         }
         else{
             ele.classList.add("OT_widget-containerDemo");
-            ele.style.right=(5+(25*i))+"%"  
-            ele.classList.add("col");
+            ele.style.right=(1+(20*i))+"%"  
+            ele.classList.remove("col");
         ele.classList.remove("col-12");
       //  ele.classList.remove("col-md-8");
         i = i+1;
