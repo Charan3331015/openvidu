@@ -108,8 +108,8 @@ export default class StreamComponent extends Component {
     //  }
      var childnodes = oevnt.currentTarget.parentElement.childNodes
      var i = 0;
+     var html="";
      childnodes.forEach(function(ele){
-         
         if(ele==element){
             ele.classList.remove("OT_widget-containerDemo");
             ele.classList.remove("col");
@@ -126,7 +126,7 @@ export default class StreamComponent extends Component {
 
            
         }
-     });
+     });     
 
         // var demo = document.getElementById("demo");
         // demo.classList.remove("flex-containerDemo");

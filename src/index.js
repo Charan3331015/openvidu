@@ -4,10 +4,11 @@ import ReactDOM from 'react-dom';
  import 'bootstrap/dist/css/bootstrap.min.css';
 import VideoRoomComponent from './components/toolbar/VideoRoomComponent';
 import registerServiceWorker from './registerServiceWorker';
-
+import { BrowserRouter, Route,Router, Switch } from 'react-router-dom';
 function initVideoCallRoom (elementID, props) {
   ReactDOM.render(
-    <VideoRoomComponent {...props} />, document.getElementById(elementID)
+    <BrowserRouter>
+    <VideoRoomComponent {...props} /></BrowserRouter>, document.getElementById(elementID)
   );
   registerServiceWorker();
 }

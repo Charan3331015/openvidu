@@ -47,16 +47,20 @@
 
   elTok=document.getElementById("idTok")
   elSesID=document.getElementById("idRoom")
+  //elTok="wss://ovdir.livehelp.it?sessionId=myroom2&token=tok_KtRlQaVQHXNlHXh8";
+  //elSesID="myroom2"
 
   elemID="root"
-
+debugger
   sesOBJ={
      openviduServerUrl: "https://ovdir.livehelp.it",  //oss. this url DOES NOT end with "/"  (sessionRequest have to be done on ASP server side)
 	   //openviduServerUrl: "https://0.0.0.0:4443",
-     sessionName: elSesID.value,
+    sessionName: elSesID.value,
+    // sessionName: elSesID,
 
      //user: myUSER,
      token: elTok.value,
+   //  token: elTok,
      //customEvents:{},
   }
 

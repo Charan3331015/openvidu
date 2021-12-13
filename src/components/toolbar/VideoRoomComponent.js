@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route,Routes, Switch } from 'react-router-dom';
 import axios from 'axios';
 import './VideoRoomComponent.css';
 import { OpenVidu } from 'openvidu-browser';
@@ -528,7 +529,8 @@ class VideoRoomComponent extends Component {
                 />
        
 
-	       <div id="mySubsList">
+	       <div id="mySubsList" style={{display:'none'}}
+> 
 
 	         {this.state.session !== undefined && this.state.session.fetch}
 	         
@@ -558,6 +560,21 @@ class VideoRoomComponent extends Component {
 
 	      </div>
 	              {/*<DialogExtensionComponent showDialog={this.state.showExtensionDialog} cancelClicked={this.closeDialogExtension} />*/}
+                  <div id="selectedStream" className='row' >
+                    {/* {button} */}
+                    <Routes>
+                    {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                                            <Route path="/about" element={ <StreamComponent user={localUser} toggleFullscreen={this.toggleFullscreen} 
+                                            sessionId={this.state.mySessionId}  screenSize={this.state.screenSize} handleNickname={this.nicknameChanged} />}/>
+
+                    )}
+                     {/* <Route path="/about" />
+                     <Route path="/about" element={ <StreamComponent user={localUser} toggleFullscreen={this.toggleFullscreen} sessionId={this.state.mySessionId}  screenSize={this.state.screenSize} handleNickname={this.nicknameChanged} />}>
+                  
+                </Route> */}
+                </Routes>
+                </div>
+
                 <div id="layout" className="bounds row">
                 {/* {this.renderStreams()} */}
 	                  {/* SHOW my own VideoStream  (so I can see me) */}

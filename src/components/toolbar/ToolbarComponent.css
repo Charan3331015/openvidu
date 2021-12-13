@@ -12,7 +12,7 @@
     bottom: 20px;  /*50px*/
     left: 0;
     z-index: 999999;
-    min-width: 400px !important;
+    /* min-width: 400px !important; */
   }
 
 #header {
@@ -24,7 +24,7 @@
     top: 0; 
     left: 0;  /*there is also header in videocomponent.css*/
     z-index: 999999;
-    min-width: 400px !important;
+    /* min-width: 400px !important; */
   }
   .toolbar{
     padding: 0 !important;
