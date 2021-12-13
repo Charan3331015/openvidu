@@ -32,7 +32,7 @@ class VideoRoomComponent extends Component {
             deviceId: undefined,
             localUser: undefined,
             subscribers: [],
-            chatDisplay: 'block',
+            chatDisplay: 'none',//'block',
         };
 
         this.joinSession = this.joinSession.bind(this);
