@@ -1,5 +1,7 @@
 html{
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
+
 }
 
 body {
@@ -9,10 +11,17 @@ body {
   height: 100%;
   width: 100%;
   background-color:#eeffee;
+  overflow: hidden !important;
+  width: 100% !important;
+  height: 100% !important;
+
 }
 .flex-container,.OT_widget-containerDemo{
   /* top:0 !important; */
   bottom:8% !important
+}
+.row {
+  --bs-gutter-x: 0rem !important;
 }
 @media only screen and (max-width: 1024px){
 .flex-containerDemo video ,#localUser .OT_widget-container video {
