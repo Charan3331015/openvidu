@@ -96,7 +96,7 @@ export default class StreamComponent extends Component {
     }
     
     handleClick(oevnt) {
-        debugger
+    
        this.setState({isSelectedStream:true,selectedStreamID:oevnt.currentTarget.getElementsByTagName("video")[0].id.split("-")[1]});
        this.props.onSelectStream(true,oevnt.currentTarget.getElementsByTagName("video")[0].id.split("-")[1],this.props.user); 
        var element =  oevnt.currentTarget;

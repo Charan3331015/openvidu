@@ -109,23 +109,26 @@
 }
 .boundssmall{
   height: 20% !important;
+  bottom: 7% !important;
 }
 
 .bounds {
  /*background-color: #494949;  */
  /* border: 1px solid #efefef !important; added by fede */
- background-color: #fff;
+ /* background-color: #fff; */
+ background-color: transparent;
  overflow: hidden;
  position: absolute;
  /* left: 0;
- right: 0;
- top: 0; 40px;  boundaries of layout, space for video stream windows */
+ right: 0; */
+ /* top: 0; 40px;  boundaries of layout, space for video stream windows */
  /*bottom: 40px;*//*0;  because we moved the layout plane up by 40px (the sizeof appbar/toolbar)*/ 
- bottom: 5%;  /* added by fede, because we moved toolbar 50px up */
+ bottom: 0;  /* added by fede, because we moved toolbar 50px up */
  /* height: inherit; */
  /* min-width: 400px !important; */
  height: 100%;
  width: 100%;
+ z-index: 1;
 
 }
 

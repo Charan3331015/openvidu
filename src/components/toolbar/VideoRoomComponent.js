@@ -507,8 +507,7 @@ class VideoRoomComponent extends Component {
        
         
      }
-     handleSelectStream = (isSelectedStream,selectedStreamID,selectedStreamUser) => {
-         debugger
+     handleSelectStream = (isSelectedStream,selectedStreamID,selectedStreamUser) => {      
     //    this.setState({language: langValue});
         this.setState({isSelectedStream:isSelectedStream,selectedStreamID:selectedStreamID,selectedStreamUser:selectedStreamUser});
 
