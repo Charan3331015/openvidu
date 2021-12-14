@@ -33,7 +33,11 @@ class VideoRoomComponent extends Component {
             deviceId: undefined,
             localUser: undefined,
             subscribers: [],
-            chatDisplay: 'block',
+            chatDisplay: 'none',
+            isSelectedStream:false,
+            selectedStreamID:"",
+            selectedStreamUser:undefined
+
         };
 
         this.joinSession = this.joinSession.bind(this);
@@ -503,13 +507,20 @@ class VideoRoomComponent extends Component {
        
         
      }
-  
+     handleSelectStream = (isSelectedStream,selectedStreamID,selectedStreamUser) => {
+         debugger
+    //    this.setState({language: langValue});
+        this.setState({isSelectedStream:isSelectedStream,selectedStreamID:selectedStreamID,selectedStreamUser:selectedStreamUser});
+
+
+    }
+
 
     render() {
         const mySessionId = this.state.mySessionId;
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
-
+        var that=this;
         return (
             <div className="container" id="container">
                 <ToolbarComponent
@@ -560,7 +571,7 @@ class VideoRoomComponent extends Component {
 
 	      </div>
 	              {/*<DialogExtensionComponent showDialog={this.state.showExtensionDialog} cancelClicked={this.closeDialogExtension} />*/}
-                  <div id="selectedStream" className='row' >
+                  <div id="selectedStream" className='row selectedStream' >
                     {/* {button} */}
                     <Routes>
                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
@@ -573,20 +584,43 @@ class VideoRoomComponent extends Component {
                   
                 </Route> */}
                 </Routes>
+
+                {this.state.isSelectedStream && this.state.selectedStreamUser.isLocal() && (
+                                        <StreamComponent onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
+                                        user={localUser} subscribers={this.state.subscribers} toggleFullscreen={this.toggleFullscreen} handleNickname={this.nicknameChanged} />
+            
+                    )}
+                    {this.state.isSelectedStream && !this.state.selectedStreamUser.isLocal() && (
+                   <StreamComponent onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
+                   user={this.state.selectedStreamUser}  streamId={this.state.selectedStreamUser.streamManager.stream.streamId} />
+                        )}
+
                 </div>
 
-                <div id="layout" className="bounds row">
+                <div id="layout" className={this.state.isSelectedStream ? 'boundssmall bounds row':'bounds row' }>
                 {/* {this.renderStreams()} */}
 	                  {/* SHOW my own VideoStream  (so I can see me) */}
-                      {localUser !== undefined && localUser.getStreamManager() !== undefined && (       
-                            <StreamComponent user={localUser} subscribers={this.state.subscribers} toggleFullscreen={this.toggleFullscreen} handleNickname={this.nicknameChanged} />
+                      {((!this.state.isSelectedStream && this.state.selectedStreamUser==undefined) ||(this.state.isSelectedStream && this.state.selectedStreamUser!=undefined &&!this.state.selectedStreamUser.isLocal())) && localUser !== undefined && localUser.getStreamManager() !== undefined && (       
+                            <StreamComponent onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
+                            user={localUser} subscribers={this.state.subscribers} toggleFullscreen={this.toggleFullscreen} handleNickname={this.nicknameChanged} />
                     )}
 	                  {/*SHOW One video stream component for each REMOTE USER (subscriber)*/}
-                    
-                    {this.state.subscribers.map((sub, i) => (
-                            <StreamComponent index = {i} user={sub}  streamId={sub.streamManager.stream.streamId} />
+                      {this.state.subscribers.map(sub => {
+                        //    console.log('sub received: ',!this.state.isSelectedStream && (this.state.selectedStreamUser==undefined || this.state.selectedStreamUser.streamManager.stream.streamId!=sub.streamManager.stream.streamId)                           );
+    if(((!this.state.isSelectedStream && this.state.selectedStreamUser==undefined) || (this.state.isSelectedStream && this.state.selectedStreamUser!=undefined && that.state.selectedStreamUser.streamManager.stream.streamId!=sub.streamManager.stream.streamId))){
+return <StreamComponent onSelectStream={that.handleSelectStream} isSelectedStream ={that.state.isSelectedStream} selectedStreamID={that.state.selectedStreamID} 
+                          user={sub}  streamId={sub.streamManager.stream.streamId} /> 
+                        }
+                    }
+                          )}
+    
+    {/* {this.state.subscribers.map((sub, i) => (
+                            <StreamComponent onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID}
+                            index = {i} user={sub}  streamId={sub.streamManager.stream.streamId} />
                        
-                    ))}
+                    ))} */}
+
+                  
 
 
 

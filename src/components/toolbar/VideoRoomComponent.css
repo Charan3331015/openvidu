@@ -16,21 +16,21 @@
 @media only screen and (max-width: 1024px) {
   .flex-container, .OT_widget-containerDemo  {
     width: 20% !important;
-    height: 25% !important;
+    /* height: 25% !important; */
     /* left: 35% !important; */
   }
 }
 @media only screen and (max-width: 720px) {
   .flex-container, .OT_widget-containerDemo  {
     width: 20% !important;
-    height: 20% !important;
+    /* height: 20% !important; */
     /* left: 35% !important; */
   }
 }
 @media only screen and (max-width: 480px) {
   .flex-container, .OT_widget-containerDemo  {
     width: 20% !important;
-    height: 10% !important;
+    /* height: 10% !important; */
     /* left: 35% !important; */
   }
   .nickname{
@@ -94,7 +94,22 @@
 .stream-container {
     padding: 0;
 }
+.selectedStream{
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+    object-fit: cover;
+    /* left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0; */
+    width:100% !important;
+    height: 100% !important; 
 
+}
+.boundssmall{
+  height: 20% !important;
+}
 
 .bounds {
  /*background-color: #494949;  */
@@ -102,14 +117,16 @@
  background-color: #fff;
  overflow: hidden;
  position: absolute;
- left: 0;
+ /* left: 0;
  right: 0;
- top: 0; /*40px;  boundaries of layout, space for video stream windows */
+ top: 0; 40px;  boundaries of layout, space for video stream windows */
  /*bottom: 40px;*//*0;  because we moved the layout plane up by 40px (the sizeof appbar/toolbar)*/ 
- bottom: 0px;  /* added by fede, because we moved toolbar 50px up */
- height: inherit;
+ bottom: 5%;  /* added by fede, because we moved toolbar 50px up */
+ /* height: inherit; */
  /* min-width: 400px !important; */
- width: inherit;
+ height: 100%;
+ width: 100%;
+
 }
 
 

@@ -20,6 +20,14 @@ body {
   /* top:0 !important; */
   bottom:8% !important
 }
+.container{
+  width: 100% !important;
+    height: 100% !important;
+    padding: 0% !important;
+    position: absolute;
+    max-width: 100% !important;
+    max-height: 100% !important;
+}
 .row {
   --bs-gutter-x: 0rem !important;
 }
