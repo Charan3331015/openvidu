@@ -108,7 +108,8 @@
 
 }
 .boundssmall{
-  height: 20% !important;
+  /* height: 20% !important; */
+  height: 200px !important;
   bottom: 7% !important;
 }
 

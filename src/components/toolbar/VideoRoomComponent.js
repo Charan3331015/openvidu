@@ -151,6 +151,7 @@ class VideoRoomComponent extends Component {
             insertMode: 'APPEND',
         });
 
+
         if (this.state.session.capabilities.publish) {
             publisher.on('accessAllowed' , () => {
                 this.state.session.publish(publisher).then(() => {
@@ -180,23 +181,31 @@ class VideoRoomComponent extends Component {
     }
 
     updateSubscribers() {
+        debugger
         var subscribers = this.remotes;
-        this.setState(
-            {
-                subscribers: subscribers,
-            },
-            () => {
-                if (this.state.localUser) {
-                    this.sendSignalUserChanged({
-                        isAudioActive: this.state.localUser.isAudioActive(),
-                        isVideoActive: this.state.localUser.isVideoActive(),
-                        nickname: this.state.localUser.getNickname(),
-                        isScreenShareActive: this.state.localUser.isScreenShareActive(),
-                    });
-                }
-                this.updateLayout();
-            },
-        );
+        if(subscribers.length > 5){
+            alert("users limit exceeded")
+        }
+        else{
+            this.setState(
+                {
+                    subscribers: subscribers,
+                },
+                () => {
+                    if (this.state.localUser) {
+                        this.sendSignalUserChanged({
+                            isAudioActive: this.state.localUser.isAudioActive(),
+                            isVideoActive: this.state.localUser.isVideoActive(),
+                            nickname: this.state.localUser.getNickname(),
+                            isScreenShareActive: this.state.localUser.isScreenShareActive(),
+                        });
+                    }
+                    this.updateLayout();
+                },
+            );
+    
+        }
+       
     }
 
     leaveSession() {
@@ -285,6 +294,7 @@ class VideoRoomComponent extends Component {
     }
 
     subscribeToStreamCreated() {
+        debugger
         this.state.session.on('streamCreated', (event) => {
             const subscriber = this.state.session.subscribe(event.stream, undefined);
             // var subscribers = this.state.subscribers;
