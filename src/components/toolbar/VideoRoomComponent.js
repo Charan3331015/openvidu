@@ -36,7 +36,8 @@ class VideoRoomComponent extends Component {
             chatDisplay: 'none',
             isSelectedStream:false,
             selectedStreamID:"",
-            selectedStreamUser:undefined
+            selectedStreamUser:undefined,
+            iscamswitch:false
 
         };
 
@@ -98,6 +99,7 @@ class VideoRoomComponent extends Component {
                 session: this.OV.initSession(),
             },
             () => {
+                debugger
                 this.subscribeToStreamCreated();
                 this.connectToSession();
             },
@@ -105,12 +107,14 @@ class VideoRoomComponent extends Component {
     }
 
     connectToSession() {
+        debugger
         if (this.props.token !== undefined) {
             console.log('token received: ', this.props.token);
             this.connect(this.props.token);
         } else {
             this.getToken().then((token) => {
                 console.log(token);
+                debugger
                 this.connect(token);    // CONNECT to ROOM/SESSION
             }).catch((error) => {
                 if(this.props.error){
@@ -129,6 +133,7 @@ class VideoRoomComponent extends Component {
                 { clientData: this.state.myUserName },
             )
             .then(() => {
+                debugger
                 this.connectWebCam();
             })
             .catch((error) => {
@@ -141,6 +146,7 @@ class VideoRoomComponent extends Component {
     }
 
     connectWebCam(camera = undefined) {
+        debugger
         let publisher = this.OV.initPublisher(undefined, {
             audioSource: undefined,
             videoSource: camera,
@@ -160,6 +166,7 @@ class VideoRoomComponent extends Component {
                     if (this.props.joinSession) {
                         this.props.joinSession();
                     }
+                   
                 });
             });
 
@@ -176,15 +183,18 @@ class VideoRoomComponent extends Component {
             this.state.localUser.getStreamManager().on('streamPlaying', (e) => {
                 this.updateLayout();
                 publisher.videos[0].video.parentElement.classList.remove('custom-class');
+                
             });
         });
+        
     }
 
     updateSubscribers() {
         debugger
         var subscribers = this.remotes;
-        if(subscribers.length > 5){
-            alert("users limit exceeded")
+       console.log("subscribers length"+subscribers.length)
+        if(subscribers.length > 1){
+            alert("users limit exceeded");
         }
         else{
             this.setState(
@@ -258,7 +268,12 @@ class VideoRoomComponent extends Component {
         } else {
             newDevice = devices[current+1]
         }
-        
+        if(this.state.selectedStreamUser!==undefined && this.state.selectedStreamUser.isLocal()){
+            this.setState({
+                iscamswitch:true
+            })
+    
+        }
         // Unpublishing the old publisher
         this.state.session.unpublish(localUser.getStreamManager());
         this.setState({
@@ -295,6 +310,8 @@ class VideoRoomComponent extends Component {
 
     subscribeToStreamCreated() {
         debugger
+        console.log("remotes length "+this.remotes.length)
+        if( this.remotes.length <=1 ){
         this.state.session.on('streamCreated', (event) => {
             const subscriber = this.state.session.subscribe(event.stream, undefined);
             // var subscribers = this.state.subscribers;
@@ -314,6 +331,7 @@ class VideoRoomComponent extends Component {
             }
         });
     }
+    }
 
     subscribeToStreamDestroyed() {
         // On every Stream destroyed...
@@ -329,6 +347,7 @@ class VideoRoomComponent extends Component {
     }
 
     subscribeToUserChanged() {
+        if(this.state.subscribers.length <=1){
         this.state.session.on('signal:userChanged', (event) => {
             let remoteUsers = this.state.subscribers;
             remoteUsers.forEach((user) => {
@@ -349,6 +368,8 @@ class VideoRoomComponent extends Component {
                     }
                 }
             });
+            debugger
+            console.log('REMOTE USERS: ', remoteUsers.length);
             this.setState(
                 {
                     subscribers: remoteUsers,
@@ -356,6 +377,8 @@ class VideoRoomComponent extends Component {
                 () => this.checkSomeoneShareScreen(),
             );
         });
+    }
+
     }
 
     updateLayout() {
@@ -453,6 +476,7 @@ class VideoRoomComponent extends Component {
     }
 
     checkSomeoneShareScreen() {
+        debugger
         let isScreenShared;
         // return true if at least one passes the test
         isScreenShared = this.state.subscribers.some((user) => user.isScreenShareActive()) || localUser.isScreenShareActive();
@@ -519,7 +543,7 @@ class VideoRoomComponent extends Component {
      }
      handleSelectStream = (isSelectedStream,selectedStreamID,selectedStreamUser) => {      
     //    this.setState({language: langValue});
-        this.setState({isSelectedStream:isSelectedStream,selectedStreamID:selectedStreamID,selectedStreamUser:selectedStreamUser});
+        this.setState({iscamswitch:false,isSelectedStream:isSelectedStream,selectedStreamID:selectedStreamID,selectedStreamUser:selectedStreamUser});
 
 
     }
@@ -595,12 +619,13 @@ class VideoRoomComponent extends Component {
                 </Routes>
 
                 {this.state.isSelectedStream && this.state.selectedStreamUser.isLocal() && (
-                                        <StreamComponent onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
+                                        <StreamComponent iscamswitch={this.state.iscamswitch} onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
                                         user={localUser} subscribers={this.state.subscribers} toggleFullscreen={this.toggleFullscreen} handleNickname={this.nicknameChanged} />
             
                     )}
                     {this.state.isSelectedStream && !this.state.selectedStreamUser.isLocal() && (
-                   <StreamComponent onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
+                   <StreamComponent  iscamswitch={this.state.iscamswitch} 
+                   onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
                    user={this.state.selectedStreamUser}  streamId={this.state.selectedStreamUser.streamManager.stream.streamId} />
                         )}
 
@@ -610,14 +635,16 @@ class VideoRoomComponent extends Component {
                 {/* {this.renderStreams()} */}
 	                  {/* SHOW my own VideoStream  (so I can see me) */}
                       {((!this.state.isSelectedStream && this.state.selectedStreamUser==undefined) ||(this.state.isSelectedStream && this.state.selectedStreamUser!=undefined &&!this.state.selectedStreamUser.isLocal())) && localUser !== undefined && localUser.getStreamManager() !== undefined && (       
-                            <StreamComponent onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
+                            <StreamComponent iscamswitch={this.state.iscamswitch} 
+                             onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
                             user={localUser} subscribers={this.state.subscribers} toggleFullscreen={this.toggleFullscreen} handleNickname={this.nicknameChanged} />
                     )}
 	                  {/*SHOW One video stream component for each REMOTE USER (subscriber)*/}
                       {this.state.subscribers.map(sub => {
                         //    console.log('sub received: ',!this.state.isSelectedStream && (this.state.selectedStreamUser==undefined || this.state.selectedStreamUser.streamManager.stream.streamId!=sub.streamManager.stream.streamId)                           );
     if(((!this.state.isSelectedStream && this.state.selectedStreamUser==undefined) || (this.state.isSelectedStream && this.state.selectedStreamUser!=undefined && that.state.selectedStreamUser.streamManager.stream.streamId!=sub.streamManager.stream.streamId))){
-return <StreamComponent onSelectStream={that.handleSelectStream} isSelectedStream ={that.state.isSelectedStream} selectedStreamID={that.state.selectedStreamID} 
+return <StreamComponent  iscamswitch={this.state.iscamswitch} 
+onSelectStream={that.handleSelectStream} isSelectedStream ={that.state.isSelectedStream} selectedStreamID={that.state.selectedStreamID} 
                           user={sub}  streamId={sub.streamManager.stream.streamId} /> 
                         }
                     }
