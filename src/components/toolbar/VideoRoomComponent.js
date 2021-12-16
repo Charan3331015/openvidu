@@ -99,7 +99,6 @@ class VideoRoomComponent extends Component {
                 session: this.OV.initSession(),
             },
             () => {
-                debugger
                 this.subscribeToStreamCreated();
                 this.connectToSession();
             },
@@ -107,14 +106,12 @@ class VideoRoomComponent extends Component {
     }
 
     connectToSession() {
-        debugger
         if (this.props.token !== undefined) {
             console.log('token received: ', this.props.token);
             this.connect(this.props.token);
         } else {
             this.getToken().then((token) => {
                 console.log(token);
-                debugger
                 this.connect(token);    // CONNECT to ROOM/SESSION
             }).catch((error) => {
                 if(this.props.error){
@@ -133,7 +130,6 @@ class VideoRoomComponent extends Component {
                 { clientData: this.state.myUserName },
             )
             .then(() => {
-                debugger
                 this.connectWebCam();
             })
             .catch((error) => {
@@ -146,7 +142,6 @@ class VideoRoomComponent extends Component {
     }
 
     connectWebCam(camera = undefined) {
-        debugger
         let publisher = this.OV.initPublisher(undefined, {
             audioSource: undefined,
             videoSource: camera,
@@ -190,13 +185,12 @@ class VideoRoomComponent extends Component {
     }
 
     updateSubscribers() {
-        debugger
         var subscribers = this.remotes;
        console.log("subscribers length"+subscribers.length)
-        if(subscribers.length > 1){
-            alert("users limit exceeded");
-        }
-        else{
+        // if(subscribers.length > 1){
+        //     alert("users limit exceeded");
+        // }
+        // else{
             this.setState(
                 {
                     subscribers: subscribers,
@@ -214,7 +208,7 @@ class VideoRoomComponent extends Component {
                 },
             );
     
-        }
+        // }
        
     }
 
@@ -309,9 +303,8 @@ class VideoRoomComponent extends Component {
     }
 
     subscribeToStreamCreated() {
-        debugger
         console.log("remotes length "+this.remotes.length)
-        if( this.remotes.length <=1 ){
+     //   if( this.remotes.length <=1 ){
         this.state.session.on('streamCreated', (event) => {
             const subscriber = this.state.session.subscribe(event.stream, undefined);
             // var subscribers = this.state.subscribers;
@@ -330,7 +323,7 @@ class VideoRoomComponent extends Component {
                 this.updateSubscribers();
             }
         });
-    }
+    //}
     }
 
     subscribeToStreamDestroyed() {
@@ -347,9 +340,11 @@ class VideoRoomComponent extends Component {
     }
 
     subscribeToUserChanged() {
-        if(this.state.subscribers.length <=1){
+        console.log('REMOTE USER1111: ', this.state.subscribers.length);
         this.state.session.on('signal:userChanged', (event) => {
             let remoteUsers = this.state.subscribers;
+            console.log('REMOTE USERS2222: ', remoteUsers.length);
+     //       if(remoteUsers.length <=1){
             remoteUsers.forEach((user) => {
                 if (user.getConnectionId() === event.from.connectionId) {
                     const data = JSON.parse(event.data);
@@ -368,7 +363,6 @@ class VideoRoomComponent extends Component {
                     }
                 }
             });
-            debugger
             console.log('REMOTE USERS: ', remoteUsers.length);
             this.setState(
                 {
@@ -376,9 +370,8 @@ class VideoRoomComponent extends Component {
                 },
                 () => this.checkSomeoneShareScreen(),
             );
+       //     }
         });
-    }
-
     }
 
     updateLayout() {
@@ -449,18 +442,26 @@ class VideoRoomComponent extends Component {
                 }
             },
         );
-
+debugger
+console.log("screen share111",localUser.getStreamManager().stream.streamId)
         publisher.once('accessAllowed', () => {
             this.state.session.unpublish(localUser.getStreamManager());
             localUser.setStreamManager(publisher);
+            console.log("screen share222",localUser.getStreamManager().stream.streamId)
+           // this.setState({selectedStreamID:localUser.getStreamManager().stream.streamId});
             this.state.session.publish(localUser.getStreamManager()).then(() => {
+                debugger
+                console.log("screen share333",localUser.getStreamManager().stream.streamId)
+                this.setState({selectedStreamID:localUser.getStreamManager().stream.streamId});
                 localUser.setScreenShareActive(true);
                 this.setState({ localUser: localUser }, () => {
+                    console.log("screen share444",localUser.getStreamManager().stream.streamId)
                     this.sendSignalUserChanged({ isScreenShareActive: localUser.isScreenShareActive() });
                 });
             });
         });
         publisher.on('streamPlaying', () => {
+            this.setState({selectedStreamID:localUser.getStreamManager().stream.streamId});
             this.updateLayout();
             publisher.videos[0].video.parentElement.classList.remove('custom-class');
         });
@@ -476,7 +477,6 @@ class VideoRoomComponent extends Component {
     }
 
     checkSomeoneShareScreen() {
-        debugger
         let isScreenShared;
         // return true if at least one passes the test
         isScreenShared = this.state.subscribers.some((user) => user.isScreenShareActive()) || localUser.isScreenShareActive();
