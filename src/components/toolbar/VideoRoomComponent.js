@@ -37,7 +37,8 @@ class VideoRoomComponent extends Component {
             isSelectedStream:false,
             selectedStreamID:"",
             selectedStreamUser:undefined,
-            iscamswitch:false
+            iscamswitch:false,
+            isstopsharescreen:false
 
         };
 
@@ -158,6 +159,10 @@ class VideoRoomComponent extends Component {
                 this.state.session.publish(publisher).then(() => {
                     this.updateSubscribers();
                     this.localUserAccessAllowed = true;
+                    console.log("connectwebcam4444",localUser.getStreamManager().stream.streamId);
+                    if(this.state.iscamswitch || this.state.isstopsharescreen){
+                        this.setState({iscamswitch:false,isstopsharescreen:false});
+                    }
                     if (this.props.joinSession) {
                         this.props.joinSession();
                     }
@@ -170,12 +175,15 @@ class VideoRoomComponent extends Component {
         localUser.setConnectionId(this.state.session.connection.connectionId);
         localUser.setScreenShareActive(false);
         localUser.setStreamManager(publisher);
+        console.log("connectwebcam1111",localUser.getStreamManager().stream.streamId);
         this.subscribeToUserChanged();
         this.subscribeToStreamDestroyed();
+        console.log("connectwebcam222",localUser.getStreamManager().stream.streamId);
         this.sendSignalUserChanged({ isScreenShareActive: localUser.isScreenShareActive() });
 
         this.setState({ localUser: localUser }, () => {
             this.state.localUser.getStreamManager().on('streamPlaying', (e) => {
+                console.log("connectwebcam333",localUser.getStreamManager().stream.streamId);
                 this.updateLayout();
                 publisher.videos[0].video.parentElement.classList.remove('custom-class');
                 
@@ -205,6 +213,7 @@ class VideoRoomComponent extends Component {
                         });
                     }
                     this.updateLayout();
+                    console.log("connectwebcam6666",localUser.getStreamManager().stream.streamId);
                 },
             );
     
@@ -452,7 +461,7 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
             this.state.session.publish(localUser.getStreamManager()).then(() => {
                 debugger
                 console.log("screen share333",localUser.getStreamManager().stream.streamId)
-                this.setState({selectedStreamID:localUser.getStreamManager().stream.streamId});
+              //  this.setState({selectedStreamID:localUser.getStreamManager().stream.streamId});
                 localUser.setScreenShareActive(true);
                 this.setState({ localUser: localUser }, () => {
                     console.log("screen share444",localUser.getStreamManager().stream.streamId)
@@ -461,7 +470,7 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
             });
         });
         publisher.on('streamPlaying', () => {
-            this.setState({selectedStreamID:localUser.getStreamManager().stream.streamId});
+        //    this.setState({selectedStreamID:localUser.getStreamManager().stream.streamId});
             this.updateLayout();
             publisher.videos[0].video.parentElement.classList.remove('custom-class');
         });
@@ -473,6 +482,7 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
 
     stopScreenShare() {
         this.state.session.unpublish(localUser.getStreamManager());
+        this.setState({isstopsharescreen:true});
         this.connectWebCam();
     }
 
@@ -619,7 +629,7 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
                 </Routes>
 
                 {this.state.isSelectedStream && this.state.selectedStreamUser.isLocal() && (
-                                        <StreamComponent iscamswitch={this.state.iscamswitch} onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
+                                        <StreamComponent isbigstream={true} iscamswitch={this.state.iscamswitch} onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
                                         user={localUser} subscribers={this.state.subscribers} toggleFullscreen={this.toggleFullscreen} handleNickname={this.nicknameChanged} />
             
                     )}
