@@ -65,6 +65,7 @@
 
   //alert(" UserID:"+myUSER + "\n SessionID:"+elSesID.value+"\n Token:"+elTok.value);
   console.log("\n SessionID:"+elSesID.value);
+  document.getElementById("sessionDiv").style.display = "none";
   res=window.initVideoCallRoom("root", sesOBJ);   //this is the LOGIN call
 
  }
@@ -75,7 +76,7 @@
   </input>
   <br>
   -->
-
+<div id="sessionDiv">
   <label for="idRoom">SessionID:</label>
   <input id="idRoom" type="text" autocomplete="off" aria-invalud="false" aria-required="true">
   </input>
@@ -86,6 +87,7 @@
   </input>
   <br>
   <button type="submit" id="joinButton" onclick="myfunc()">JOIN</button>
+</div>
 
 
 

@@ -107,20 +107,25 @@
     top: 0;
     bottom: 0; */
     width:100% !important;
-    height: 100% !important; 
+    height: 100% !important;
+    /* top:0; */
+    bottom: 240px; 
 
+}
+.selectedStream video{
+  /* height: 88% !important; */
 }
 .boundssmall{
   /* height: 20% !important; */
   height: 200px !important;
-  bottom: 7% !important;
+  bottom: 40px !important;
 }
 
 .bounds {
- /*background-color: #494949;  */
+ background-color: #49494987; 
  /* border: 1px solid #efefef !important; added by fede */
  /* background-color: #fff; */
- background-color: transparent;
+ /* background-color: transparent; */
  overflow: hidden;
  position: absolute;
  /* left: 0;

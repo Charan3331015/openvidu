@@ -37,8 +37,8 @@ class VideoRoomComponent extends Component {
             isSelectedStream:false,
             selectedStreamID:"",
             selectedStreamUser:undefined,
-            iscamswitch:false,
-            isstopsharescreen:false
+            // iscamswitch:false,
+            // isstopsharescreen:false
 
         };
 
@@ -160,9 +160,9 @@ class VideoRoomComponent extends Component {
                     this.updateSubscribers();
                     this.localUserAccessAllowed = true;
                     console.log("connectwebcam4444",localUser.getStreamManager().stream.streamId);
-                    if(this.state.iscamswitch || this.state.isstopsharescreen){
-                        this.setState({iscamswitch:false,isstopsharescreen:false});
-                    }
+                    // if(this.state.iscamswitch || this.state.isstopsharescreen){
+                    //     this.setState({iscamswitch:false,isstopsharescreen:false});
+                    // }
                     if (this.props.joinSession) {
                         this.props.joinSession();
                     }
@@ -271,12 +271,12 @@ class VideoRoomComponent extends Component {
         } else {
             newDevice = devices[current+1]
         }
-        if(this.state.selectedStreamUser!==undefined && this.state.selectedStreamUser.isLocal()){
-            this.setState({
-                iscamswitch:true
-            })
+        // if(this.state.selectedStreamUser!==undefined && this.state.selectedStreamUser.isLocal()){
+        //     this.setState({
+        //         iscamswitch:true
+        //     })
     
-        }
+        // }
         // Unpublishing the old publisher
         this.state.session.unpublish(localUser.getStreamManager());
         this.setState({
@@ -482,7 +482,7 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
 
     stopScreenShare() {
         this.state.session.unpublish(localUser.getStreamManager());
-        this.setState({isstopsharescreen:true});
+        // this.setState({isstopsharescreen:true});
         this.connectWebCam();
     }
 
@@ -553,7 +553,7 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
      }
      handleSelectStream = (isSelectedStream,selectedStreamID,selectedStreamUser) => {      
     //    this.setState({language: langValue});
-        this.setState({iscamswitch:false,isSelectedStream:isSelectedStream,selectedStreamID:selectedStreamID,selectedStreamUser:selectedStreamUser});
+        this.setState({isSelectedStream:isSelectedStream,selectedStreamID:selectedStreamID,selectedStreamUser:selectedStreamUser});
 
 
     }
@@ -629,12 +629,12 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
                 </Routes>
 
                 {this.state.isSelectedStream && this.state.selectedStreamUser.isLocal() && (
-                                        <StreamComponent isbigstream={true} iscamswitch={this.state.iscamswitch} onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
+                                        <StreamComponent isbigstream={true} onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
                                         user={localUser} subscribers={this.state.subscribers} toggleFullscreen={this.toggleFullscreen} handleNickname={this.nicknameChanged} />
             
                     )}
                     {this.state.isSelectedStream && !this.state.selectedStreamUser.isLocal() && (
-                   <StreamComponent  iscamswitch={this.state.iscamswitch} 
+                   <StreamComponent  
                    onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
                    user={this.state.selectedStreamUser}  streamId={this.state.selectedStreamUser.streamManager.stream.streamId} />
                         )}
@@ -645,7 +645,7 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
                 {/* {this.renderStreams()} */}
 	                  {/* SHOW my own VideoStream  (so I can see me) */}
                       {((!this.state.isSelectedStream && this.state.selectedStreamUser==undefined) ||(this.state.isSelectedStream && this.state.selectedStreamUser!=undefined &&!this.state.selectedStreamUser.isLocal())) && localUser !== undefined && localUser.getStreamManager() !== undefined && (       
-                            <StreamComponent iscamswitch={this.state.iscamswitch} 
+                            <StreamComponent 
                              onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
                             user={localUser} subscribers={this.state.subscribers} toggleFullscreen={this.toggleFullscreen} handleNickname={this.nicknameChanged} />
                     )}
@@ -653,7 +653,7 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
                       {this.state.subscribers.map(sub => {
                         //    console.log('sub received: ',!this.state.isSelectedStream && (this.state.selectedStreamUser==undefined || this.state.selectedStreamUser.streamManager.stream.streamId!=sub.streamManager.stream.streamId)                           );
     if(((!this.state.isSelectedStream && this.state.selectedStreamUser==undefined) || (this.state.isSelectedStream && this.state.selectedStreamUser!=undefined && that.state.selectedStreamUser.streamManager.stream.streamId!=sub.streamManager.stream.streamId))){
-return <StreamComponent  iscamswitch={this.state.iscamswitch} 
+return <StreamComponent 
 onSelectStream={that.handleSelectStream} isSelectedStream ={that.state.isSelectedStream} selectedStreamID={that.state.selectedStreamID} 
                           user={sub}  streamId={sub.streamManager.stream.streamId} /> 
                         }

@@ -9,7 +9,7 @@
     top: auto;
     /*bottom: 0;*/ /* maybe useless*/
     box-shadow: none;
-    bottom: 20px;  /*50px*/
+    bottom:0;  /*50px*/
     left: 0;
     z-index: 999999;
     /* min-width: 400px !important; */
