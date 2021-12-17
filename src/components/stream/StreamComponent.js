@@ -182,7 +182,7 @@ export default class StreamComponent extends Component {
                 {this.props.user !== undefined && this.props.user.getStreamManager() !== undefined ? (
                     <div className="streamComponent">
                         <OvVideoComponent user={this.props.user} fullScreenView={this.fullScreenView} mutedSound={this.state.mutedSound} />
-                        {/* <div id="statusIcons"> 
+                        <div id="statusIcons"> 
                             {!this.props.user.isVideoActive() ? (
                                 <div id="camIcon">
                                     <VideocamOff id="statusCam" />
@@ -194,24 +194,24 @@ export default class StreamComponent extends Component {
                                     <MicOff id="statusMic" />
                                 </div>
                             ) : null}
-                        </div> */}
+                        </div>
                         {/* <div>
                             {!this.props.user.isLocal() && (
                                 <IconButton id="volumeButton" onClick={this.toggleSound}>
                                     {this.state.mutedSound ? <VolumeOff color="secondary" /> : <VolumeUp />}
                                 </IconButton>
                             )}
-                        </div> */}
+                        </div>
                         <div>
-                        {/*(
+                        (
                                 <IconButton id="streamSizeButton"  onClick={this.toggleZoom}>
                                     
                                  <ZoomInIcon/> <ZoomOutIcon/>
 
 
                             </IconButton>
-                        )*/}
-                        </div>
+                        )
+                        </div> */}
                     </div>
                 ) : null}
             </div>

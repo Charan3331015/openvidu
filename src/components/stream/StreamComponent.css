@@ -63,11 +63,21 @@ video {
 
 #statusIcons {
     bottom: 0;
-    background: #c7110088; /* add x88 transparency @50% */
+    /* background: #c7110088;  */
     width: 40px;
     height: fit-content;
     position: absolute;
     color: #ffffff;
+    
+
+}
+#micIcon{
+    text-align: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #c71100;
+    margin: 5px auto;
 }
 
 #camIcon,
