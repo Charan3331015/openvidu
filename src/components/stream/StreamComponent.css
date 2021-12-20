@@ -40,8 +40,9 @@
 }
 
 video {
-    -o-object-fit: cover;
-    object-fit: cover;
+    /* -o-object-fit: cover; */
+    /* object-fit: cover; */
+    object-fit: contain;
     color: #ffffff;
     margin: 0;
     object-position: center center;
@@ -71,7 +72,9 @@ video {
     
 
 }
-#micIcon{
+#camIcon,
+#micIcon
+{
     text-align: center;
     width: 35px;
     height: 35px;
@@ -130,6 +133,10 @@ video {
     object-fit: cover;
     border: 1px solid white;
 }
+.OT_widget-containerDemo video{
+    object-fit: cover !important;
+}
+
 /* #localUser .OT_widget-container {
     width: 25% !important;
     height:35% !important;

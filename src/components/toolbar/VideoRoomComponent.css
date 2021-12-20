@@ -101,7 +101,7 @@
     z-index: 1;
     position: relative;
     overflow: hidden;
-    object-fit: cover;
+    object-fit: contain;
     /* left: 0;
     right: 0;
     top: 0;
