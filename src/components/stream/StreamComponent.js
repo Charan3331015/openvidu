@@ -145,7 +145,7 @@ export default class StreamComponent extends Component {
         console.log('prop received: ', this.props);
         return (
 
-            <div id="demodemo" onClick={this.handleClick}  className={(this.props.isSelectedStream ? ((!this.props.user.isLocal() && this.props.selectedStreamID==this.props.user.getStreamManager().stream.streamId) || (this.props.user.isLocal() && this.props.isbigstream)) ? 'col-12': 'OT_widget-containerDemo' : 'col')}>
+            <div id="demodemo" onClick={this.handleClick}  className={(this.props.isSelectedStream ? ((!this.props.user.isLocal() && this.props.selectedStreamID==this.props.user.getStreamManager().stream.streamId) || (this.props.user.isLocal() && this.props.isbigstream)) ? (this.props.user.isLocal() && this.props.user.isScreenShareActive()) ? 'col-12 screenshareStream' :'col-12': 'OT_widget-containerDemo' : 'col')}>
 	             {/* BEG: nickname BOX */}
                 <div className="pointer nickname"> 
                     {this.state.showForm ? (

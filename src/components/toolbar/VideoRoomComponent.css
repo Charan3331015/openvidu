@@ -115,7 +115,13 @@
 }
 .selectedStream video{
   /* height: 88% !important; */
+  object-fit: cover !important;
 }
+.screenshareStream video{
+  /* height: 88% !important; */
+  object-fit: contain !important;
+}
+
 .boundssmall{
   /* height: 20% !important; */
   /* height: 200px !important; */
@@ -124,6 +130,7 @@
   top: 0;
   right: 0;
   bottom: 0;
+  overflow: scroll;
 }
 
 .bounds {

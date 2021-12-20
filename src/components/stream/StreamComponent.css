@@ -63,13 +63,14 @@ video {
 }
 
 #statusIcons {
-    bottom: 0;
+    /* bottom: 50px; */
     /* background: #c7110088;  */
     width: 40px;
     height: fit-content;
     position: absolute;
     color: #ffffff;
-    
+    top:0;
+    right: 0;
 
 }
 #camIcon,
@@ -114,9 +115,19 @@ video {
 .col{
     min-width: 25% !important;
     border: 1px solid white !important;
+    position: relative;
 }
+.col video{
+    object-fit: cover !important;
+  }
+  
 .hideStream{
     display: none !important;
+}
+.col-12{
+    position: absolute;
+    bottom: 40px;
+    top:0;
 }
 .OT_widget-containerDemo {
     /* width: 20%; */
@@ -133,6 +144,7 @@ video {
     overflow: hidden;
     object-fit: cover;
     border: 1px solid white;
+    margin: auto;
 }
 .OT_widget-containerDemo video{
     object-fit: cover !important;
@@ -141,6 +153,10 @@ video {
     width: 175px !important;
     height: 200px !important;
     position: absolute;
+}
+.OT_widget-containerDemo #statusIcons{
+  /* bottom: 0px !important; */
+
 }
 
 /* #localUser .OT_widget-container {
