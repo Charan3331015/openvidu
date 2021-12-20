@@ -3,7 +3,8 @@
     color: #fff; /*111*//*#ffffff; */
     height: 40px;
     /*background-color: #222222;*/ /*#88ff00;*/ /*#333333;*/
-    background-color: rgba(0,0,0,0.3);
+    /* background-color: rgba(0,0,0,0.3); */
+    background-color: #333;
     padding: 0 14px 0 0;
     position: absolute;
     top: auto;
