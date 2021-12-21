@@ -641,7 +641,7 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
 
                 </div>
 
-                <div id="layout" className={this.state.isSelectedStream ? 'boundssmall bounds row':'bounds row' }>
+                <div id="layout" className={this.state.isSelectedStream ? 'boundssmall bounds row' :'bounds row' } style={this.state.isSelectedStream ? this.state.subscribers.length<=2 ?{height:60+'%'}:this.state.subscribers.length<=3 ?{height:80+'%'}:{}:{}}>
                 {/* {this.renderStreams()} */}
 	                  {/* SHOW my own VideoStream  (so I can see me) */}
                       {((!this.state.isSelectedStream && this.state.selectedStreamUser==undefined) ||(this.state.isSelectedStream && this.state.selectedStreamUser!=undefined &&!this.state.selectedStreamUser.isLocal())) && localUser !== undefined && localUser.getStreamManager() !== undefined && (       

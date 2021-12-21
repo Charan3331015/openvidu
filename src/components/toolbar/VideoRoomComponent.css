@@ -130,7 +130,10 @@
   top: 0;
   right: 0;
   bottom: 0;
-  overflow: scroll !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  /* height: 100% !important; */
+  margin: auto;
 }
 
 .bounds {
