@@ -16,11 +16,17 @@ import InputLabel from '@material-ui/core/InputLabel';
 import IconButton from '@material-ui/core/IconButton';
 import HighlightOff from '@material-ui/icons/HighlightOff';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import { MenuList } from '@material-ui/core';
+import { MoreVert } from '@material-ui/icons';
+import MenuItem from "@material-ui/core/MenuItem";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+
 
 export default class StreamComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = { nickname: this.props.user.getNickname(), showForm: false, mutedSound: false, isFormValid: true ,isSelectedStream:false,selectedStreamID:""};
+        this.state = { anchorEl:false,nickname: this.props.user.getNickname(), showForm: false, mutedSound: false, isFormValid: true ,isSelectedStream:false,selectedStreamID:""};
         this.handleChange = this.handleChange.bind(this);
         this.handlePressKey = this.handlePressKey.bind(this);
         this.toggleNicknameForm = this.toggleNicknameForm.bind(this);
@@ -139,6 +145,9 @@ export default class StreamComponent extends Component {
         // demodemo.classList.remove("OT_widget-containerDemo");
         // demodemo.classList.add("OT_widget-container");
      }
+     handleMoreClick(oevnt) {
+        //  this.setState({anchorEl:true})
+     }
   
 
     render() {
@@ -201,12 +210,30 @@ export default class StreamComponent extends Component {
                                     {this.state.mutedSound ? <VolumeOff color="secondary" /> : <VolumeUp />}
                                 </IconButton>
                             )}
-                        </div>
-                        <div>
+                        </div> */}
+                        {/* <div>
                         (
                                 <IconButton id="streamSizeButton"  onClick={this.toggleZoom}>
-                                    
-                                 <ZoomInIcon/> <ZoomOutIcon/>
+                                
+                                 <MoreVert
+        aria-controls="simple-menu"
+        aria-haspopup="true"
+        onClick={this.handleMoreClick}
+      >
+      </MoreVert>
+      <Menu
+        keepMounted
+        anchorEl={this.state.anchorEl}
+        // onClose={handleClose}
+        open={this.state.anchorEl}
+      >
+        <MenuItem >Zoom In</MenuItem>
+        <MenuItem >Zoom Out</MenuItem>
+        <MenuItem >FullScreen View</MenuItem>
+        <MenuItem >Exit FullScreen View</MenuItem>
+      </Menu>
+
+                                
 
 
                             </IconButton>
