@@ -54,6 +54,9 @@
     height: 200px !important;
     bottom: 40px !important;
     width: 100% !important;
+    display: flex; /* displays flex-items (children) inline */
+  overflow-x: auto !important;
+
   }
   
   .bounds {
