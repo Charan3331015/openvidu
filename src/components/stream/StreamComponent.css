@@ -173,10 +173,15 @@ video {
 
 @media only screen and (max-width: 700px) {
     .OT_widget-containerDemo{
-        flex: 0 0 25%;
-
+        flex: 0 0 30%;
     }
   }
+  @media only screen and (max-width: 420px) {
+    .OT_widget-containerDemo{
+        flex: 0 0 50%;
+    }
+  }
+
 #input,
 #label {
     color: white;
