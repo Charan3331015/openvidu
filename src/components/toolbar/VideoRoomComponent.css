@@ -155,6 +155,10 @@
 .stream-container {
     padding: 0;
 }
+.fullscreenStream{
+  width:100% !important;
+  z-index: 2 !important;
+}
 .selectedStream{
     z-index: 1;
     position: relative;

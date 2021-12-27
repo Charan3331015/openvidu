@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './StreamComponent.css';
 import OvVideoComponent from './OvVideo';
-
+import PopoverTip from './Popover';
 import MicOff from '@material-ui/icons/MicOff';
 import VideocamOff from '@material-ui/icons/VideocamOff';
 import VolumeUp from '@material-ui/icons/VolumeUp';
@@ -9,6 +9,9 @@ import VolumeOff from '@material-ui/icons/VolumeOff';
 
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
+import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
+
 
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
@@ -17,7 +20,7 @@ import IconButton from '@material-ui/core/IconButton';
 import HighlightOff from '@material-ui/icons/HighlightOff';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { MenuList } from '@material-ui/core';
-import { MoreVert } from '@material-ui/icons';
+import { ZoomIn } from '@material-ui/icons';
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
@@ -34,7 +37,7 @@ export default class StreamComponent extends Component {
         this.toggleZoom = this.toggleZoom.bind(this);
         this.fullScreenView = this.fullScreenView.bind(this);
         this.handleClick= this.handleClick.bind(this);
-
+      //  this.handleMoreClick= this.handleMoreClick(this);
     }
 
     handleChange(event) {
@@ -102,9 +105,9 @@ export default class StreamComponent extends Component {
     }
     
     handleClick(oevnt) {
-    
+   // alert("handle click")
        this.setState({isSelectedStream:true,selectedStreamID:oevnt.currentTarget.getElementsByTagName("video")[0].id.split("-")[1]});
-       this.props.onSelectStream(true,oevnt.currentTarget.getElementsByTagName("video")[0].id.split("-")[1],this.props.user); 
+       this.props.onSelectStream(false,true,oevnt.currentTarget.getElementsByTagName("video")[0].id.split("-")[1],this.props.user); 
        var element =  oevnt.currentTarget;
     //  if(element.classList.contains("col")){
     //     element.classList.remove("col");
@@ -145,10 +148,21 @@ export default class StreamComponent extends Component {
         // demodemo.classList.remove("OT_widget-containerDemo");
         // demodemo.classList.add("OT_widget-container");
      }
-     handleMoreClick(oevnt) {
-        //  this.setState({anchorEl:true})
+     handleMoreClick(e,i) {
+      e.stopPropagation();
+        e.preventDefault(); 
+
+         //this.setState({anchorEl:true})
+       //  alert("zoom in selected")
+      this.props.onSelectStream(true,true,"video-"+this.props.user.getStreamManager().stream.streamId,this.props.user); 
+      
+
+       console.log("selected Zoom in option")
      }
-  
+     showPopover(event) {
+        event.preventDefault();
+        this.props.togglePopover(event.currentTarget);
+    };
 
     render() {
         console.log('prop received: ', this.props);
@@ -211,23 +225,34 @@ export default class StreamComponent extends Component {
                                 </IconButton>
                             )}
                         </div> */}
+                        {/* {!false ? (
+                                <div id="streamSizeButton" onClick={(e,i) => {e.preventDefault(); this.handleMoreClick(e,i)}}
+                           >
+                                    <FullscreenIcon></FullscreenIcon>
+                                </div>
+                            ) : null} */}
+
+                        {/* <IconButton id="streamSizeButton" onClick={ this.showPopover.bind(this) }>
+ <MoreVert></MoreVert>
+</IconButton>
+<PopoverTip  isOpen={true} anchorEl={true} /> */}
                         {/* <div>
-                        (
-                                <IconButton id="streamSizeButton"  onClick={this.toggleZoom}>
+                        
+                                <IconButton id="streamSizeButton" >
                                 
                                  <MoreVert
         aria-controls="simple-menu"
         aria-haspopup="true"
-        onClick={this.handleMoreClick}
+        
       >
       </MoreVert>
       <Menu
         keepMounted
-        anchorEl={this.state.anchorEl}
+        // anchorEl={this.state.anchorEl}
         // onClose={handleClose}
         open={this.state.anchorEl}
       >
-        <MenuItem >Zoom In</MenuItem>
+        <MenuItem onClick={this.handleMoreClick}>Zoom In</MenuItem>
         <MenuItem >Zoom Out</MenuItem>
         <MenuItem >FullScreen View</MenuItem>
         <MenuItem >Exit FullScreen View</MenuItem>
@@ -237,7 +262,7 @@ export default class StreamComponent extends Component {
 
 
                             </IconButton>
-                        )
+                        
                         </div> */}
                     </div>
                 ) : null}

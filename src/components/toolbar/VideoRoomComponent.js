@@ -37,6 +37,7 @@ class VideoRoomComponent extends Component {
             isSelectedStream:false,
             selectedStreamID:"",
             selectedStreamUser:undefined,
+            isFullScreen:false,
             // iscamswitch:false,
             // isstopsharescreen:false
 
@@ -236,6 +237,8 @@ class VideoRoomComponent extends Component {
             mySessionId: 'SessionA',
             myUserName: 'Rand_User' + Math.floor(Math.random() * 100),
             localUser: undefined,
+
+
         });
         if (this.props.leaveSession) {
             this.props.leaveSession();
@@ -551,9 +554,12 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
        
         
      }
-     handleSelectStream = (isSelectedStream,selectedStreamID,selectedStreamUser) => {      
+     handleSelectStream = (isFullScreen,isSelectedStream,selectedStreamID,selectedStreamUser) => {      
     //    this.setState({language: langValue});
-        this.setState({isSelectedStream:isSelectedStream,selectedStreamID:selectedStreamID,selectedStreamUser:selectedStreamUser});
+    if(isFullScreen){
+     //   this.toggleFullscreen();
+    }
+        this.setState({isFullScreen:isFullScreen,isSelectedStream:isSelectedStream,selectedStreamID:selectedStreamID,selectedStreamUser:selectedStreamUser});
 
 
     }
@@ -564,6 +570,30 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
         var that=this;
+        console.log("subscribers List "+this.state.subscribers)
+        console.log("subscribers List "+this.state.selectedStreamID)
+        
+        if(this.state.isSelectedStream){
+            var isStreamAvailable=false;
+            this.state.subscribers.forEach(sub => {
+                    if(sub.streamManager.stream.streamId==this.state.selectedStreamID){
+                        isStreamAvailable=true;
+                    }
+            });
+            if(!isStreamAvailable && localUser.getStreamManager().stream.streamId!=this.state.selectedStreamID){
+                this.setState({
+                    isSelectedStream:false,
+                    selectedStreamID:"",
+                    selectedStreamUser:undefined,
+                    isFullScreen:false,
+        
+                });
+        
+            }
+    
+        }
+
+        
         return (
             <div className="container" id="container">
                 <ToolbarComponent
@@ -614,7 +644,7 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
 
 	      </div>
 	              {/*<DialogExtensionComponent showDialog={this.state.showExtensionDialog} cancelClicked={this.closeDialogExtension} />*/}
-                  <div id="selectedStream" className='row selectedStream' >
+                  <div id="selectedStream" className={this.state.isFullScreen? 'row selectedStream fullscreenStream' :'row selectedStream' } >
                     {/* {button} */}
                     <Routes>
                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
