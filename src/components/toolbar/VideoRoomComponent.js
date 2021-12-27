@@ -659,13 +659,13 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
                 </Routes>
 
                 {this.state.isSelectedStream && this.state.selectedStreamUser.isLocal() && (
-                                        <StreamComponent isbigstream={true} onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
+                                        <StreamComponent isbigstream={true}     isFullScreen={this.state.isFullScreen}  onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
                                         user={localUser} subscribers={this.state.subscribers} toggleFullscreen={this.toggleFullscreen} handleNickname={this.nicknameChanged} />
             
                     )}
                     {this.state.isSelectedStream && !this.state.selectedStreamUser.isLocal() && (
                    <StreamComponent  
-                   onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
+                   isFullScreen={this.state.isFullScreen} onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
                    user={this.state.selectedStreamUser}  streamId={this.state.selectedStreamUser.streamManager.stream.streamId} />
                         )}
 
@@ -676,7 +676,7 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
 	                  {/* SHOW my own VideoStream  (so I can see me) */}
                       {((!this.state.isSelectedStream && this.state.selectedStreamUser==undefined) ||(this.state.isSelectedStream && this.state.selectedStreamUser!=undefined &&!this.state.selectedStreamUser.isLocal())) && localUser !== undefined && localUser.getStreamManager() !== undefined && (       
                             <StreamComponent 
-                             onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
+                             isFullScreen={this.state.isFullScreen} onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
                             user={localUser} subscribers={this.state.subscribers} toggleFullscreen={this.toggleFullscreen} handleNickname={this.nicknameChanged} />
                     )}
 	                  {/*SHOW One video stream component for each REMOTE USER (subscriber)*/}
@@ -684,7 +684,7 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
                         //    console.log('sub received: ',!this.state.isSelectedStream && (this.state.selectedStreamUser==undefined || this.state.selectedStreamUser.streamManager.stream.streamId!=sub.streamManager.stream.streamId)                           );
     if(((!this.state.isSelectedStream && this.state.selectedStreamUser==undefined) || (this.state.isSelectedStream && this.state.selectedStreamUser!=undefined && that.state.selectedStreamUser.streamManager.stream.streamId!=sub.streamManager.stream.streamId))){
 return <StreamComponent 
-onSelectStream={that.handleSelectStream} isSelectedStream ={that.state.isSelectedStream} selectedStreamID={that.state.selectedStreamID} 
+isFullScreen={this.state.isFullScreen} onSelectStream={that.handleSelectStream} isSelectedStream ={that.state.isSelectedStream} selectedStreamID={that.state.selectedStreamID} 
                           user={sub}  streamId={sub.streamManager.stream.streamId} /> 
                         }
                     }

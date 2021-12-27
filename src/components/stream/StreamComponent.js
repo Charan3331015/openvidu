@@ -106,8 +106,8 @@ export default class StreamComponent extends Component {
     
     handleClick(oevnt) {
    // alert("handle click")
-       this.setState({isSelectedStream:true,selectedStreamID:oevnt.currentTarget.getElementsByTagName("video")[0].id.split("-")[1]});
-       this.props.onSelectStream(false,true,oevnt.currentTarget.getElementsByTagName("video")[0].id.split("-")[1],this.props.user); 
+       this.setState({isSelectedStream:true,selectedStreamID:this.props.user.getStreamManager().stream.streamId});
+       this.props.onSelectStream(false,true,this.props.user.getStreamManager().stream.streamId,this.props.user); 
        var element =  oevnt.currentTarget;
     //  if(element.classList.contains("col")){
     //     element.classList.remove("col");
@@ -154,10 +154,10 @@ export default class StreamComponent extends Component {
 
          //this.setState({anchorEl:true})
        //  alert("zoom in selected")
-      this.props.onSelectStream(true,true,"video-"+this.props.user.getStreamManager().stream.streamId,this.props.user); 
+      this.props.onSelectStream(true,true,this.props.user.getStreamManager().stream.streamId,this.props.user); 
       
 
-       console.log("selected Zoom in option")
+       console.log("selected Zoom in option "+"video-"+this.props.user.getStreamManager().stream.streamId       )
      }
      showPopover(event) {
         event.preventDefault();
@@ -168,7 +168,7 @@ export default class StreamComponent extends Component {
         console.log('prop received: ', this.props);
         return (
 
-            <div id="demodemo" onClick={this.handleClick}  className={(this.props.isSelectedStream ? ((!this.props.user.isLocal() && this.props.selectedStreamID==this.props.user.getStreamManager().stream.streamId) || (this.props.user.isLocal() && this.props.isbigstream)) ? (this.props.user.isLocal() && this.props.user.isScreenShareActive()) ? 'col-12 screenshareStream' :'col-12': 'OT_widget-containerDemo' : 'col')}>
+            <div id="demodemo" onClick={this.handleClick}  className={(this.props.isSelectedStream ? ((!this.props.user.isLocal() && this.props.selectedStreamID==this.props.user.getStreamManager().stream.streamId) || (this.props.user.isLocal() && this.props.isbigstream)) ? (this.props.user.isLocal() && this.props.user.isScreenShareActive()) ? 'col-12 screenshareStream' :'col-12': 'OT_widget-containerDemo' : 'col')} style={this.props.isFullScreen ? {width:100+'% !important',height:100+'% !important'}:{}}            >
 	             {/* BEG: nickname BOX */}
                 <div className="pointer nickname"> 
                     {this.state.showForm ? (
@@ -225,12 +225,19 @@ export default class StreamComponent extends Component {
                                 </IconButton>
                             )}
                         </div> */}
-                        {/* {!false ? (
+                        {!this.props.isFullScreen ? (
                                 <div id="streamSizeButton" onClick={(e,i) => {e.preventDefault(); this.handleMoreClick(e,i)}}
                            >
                                     <FullscreenIcon></FullscreenIcon>
                                 </div>
-                            ) : null} */}
+                            ) : null}
+                             {this.props.isFullScreen ? (
+                                <div id="streamSizeButton" onClick={this.handleClick}
+                           >
+                                    <FullscreenExitIcon></FullscreenExitIcon>
+                                </div>
+                            ) : null}
+
 
                         {/* <IconButton id="streamSizeButton" onClick={ this.showPopover.bind(this) }>
  <MoreVert></MoreVert>
