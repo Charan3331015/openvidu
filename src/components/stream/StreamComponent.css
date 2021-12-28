@@ -160,6 +160,10 @@ video {
   /* bottom: 0px !important; */
 
 }
+.OT_widget-containerDemo #streamSizeButton{
+    bottom:0px !important;
+}
+
 
 /* #localUser .OT_widget-container {
     width: 25% !important;
@@ -180,6 +184,18 @@ video {
     .streamComponent{
         height: 70% !important;
     }
+    .selectedStream  #streamSizeButton{
+        bottom: 225px !important;
+    }
+    .fullscreenStream .streamComponent {
+        height: 100% !important;
+    }
+    .fullscreenStream  #streamSizeButton    {
+        bottom: 0px !important;
+    }
+
+    
+
   }
   @media only screen and (max-width: 550px) {
     .OT_widget-containerDemo{
@@ -200,10 +216,15 @@ video {
 
 #streamSizeButton {
     background-color: #6c757d;
-    bottom: 45px;
+    bottom: 0px;
     /* left: 10px; */
     right: 0;
     position: absolute;
     z-index: 1000;
     color: #ffffff;
+}
+.col #streamSizeButton {
+    
+    bottom: 45px !important;
+    
 }
