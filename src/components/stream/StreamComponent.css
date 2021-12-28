@@ -184,6 +184,9 @@ video {
     .streamComponent{
         height: 70% !important;
     }
+    .col .streamComponent {
+        height: 100% !important;
+    }    
     .selectedStream  #streamSizeButton{
         bottom: 225px !important;
     }
