@@ -592,6 +592,15 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
             }
     
         }
+        if(!this.state.isSelectedStream && this.state.subscribers.length >1){
+            this.setState({
+                isSelectedStream:true,
+                selectedStreamID:localUser.getStreamManager().stream.streamId,
+                selectedStreamUser:localUser,
+                isFullScreen:false
+    
+            });
+        }
 
         
         return (
