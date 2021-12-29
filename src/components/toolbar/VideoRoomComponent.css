@@ -16,7 +16,7 @@
 @media only screen and (max-width: 1024px) {
   .flex-container, .OT_widget-containerDemo  {
     /* width: 20% !important; */
-    width: 175px !important;
+    width: 150px !important;
     /* height: 25% !important; */
     /* left: 35% !important; */
   }
@@ -24,7 +24,7 @@
 @media only screen and (max-width: 720px) {
   .flex-container, .OT_widget-containerDemo  {
     /* width: 20% !important; */
-    width: 175px !important;
+    width: 150px !important;
     /* height: 20% !important; */
     /* left: 35% !important; */
   }
@@ -51,7 +51,7 @@
   }
   .boundssmall{
     /* height: 20% !important; */
-    height: 200px !important;
+    height: 112px !important;
     bottom: 40px !important;
     width: 100% !important;
     display: flex; /* displays flex-items (children) inline */
@@ -170,7 +170,7 @@
     right: 0;
     top: 0;
     bottom: 0; */
-    width:calc(100% - 175px);
+    width:calc(100% - 150px);
     height: 100% !important;
     /* top:0; */
     /* bottom: 240px;  */
@@ -189,7 +189,7 @@
 .boundssmall{
   /* height: 20% !important; */
   /* height: 200px !important; */
-  width: 175px;
+  width: 150px;
   /* bottom: 40px !important; */
   top: 0;
   right: 0;
