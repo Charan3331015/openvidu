@@ -184,7 +184,7 @@ video {
 @media only screen and (max-width: 700px) {
     .OT_widget-containerDemo{
         /* flex: 0 0 30%; */
-        width: r20% !important;
+        width: 20% !important;
         height: 100% !important;
         
     }
