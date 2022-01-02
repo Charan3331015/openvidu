@@ -724,7 +724,7 @@ isFullScreen={this.state.isFullScreen} onSelectStream={that.handleSelectStream} 
                     )}
 		    
                 </div>
-            </div>
+            </div> 
         );
     }
 
