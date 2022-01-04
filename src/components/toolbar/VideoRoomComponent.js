@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route,Routes, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom';
 import axios from 'axios';
 import './VideoRoomComponent.css';
 import { OpenVidu } from 'openvidu-browser';
@@ -34,10 +34,10 @@ class VideoRoomComponent extends Component {
             localUser: undefined,
             subscribers: [],
             chatDisplay: 'none',
-            isSelectedStream:false,
-            selectedStreamID:"",
-            selectedStreamUser:undefined,
-            isFullScreen:false,
+            isSelectedStream: false,
+            selectedStreamID: "",
+            selectedStreamUser: undefined,
+            isFullScreen: false,
             // iscamswitch:false,
             // isstopsharescreen:false
 
@@ -116,12 +116,12 @@ class VideoRoomComponent extends Component {
                 console.log(token);
                 this.connect(token);    // CONNECT to ROOM/SESSION
             }).catch((error) => {
-                if(this.props.error){
+                if (this.props.error) {
                     this.props.error({ error: error.error, messgae: error.message, code: error.code, status: error.status });
                 }
                 console.log('There was an error getting the token:', error.code, error.message);
                 alert('There was an error getting the token:', error.message);
-              });
+            });
         }
     }
 
@@ -135,7 +135,7 @@ class VideoRoomComponent extends Component {
                 this.connectWebCam();
             })
             .catch((error) => {
-                if(this.props.error){
+                if (this.props.error) {
                     this.props.error({ error: error.error, messgae: error.message, code: error.code, status: error.status });
                 }
                 alert('There was an error connecting to the session:', error.message);
@@ -156,18 +156,18 @@ class VideoRoomComponent extends Component {
 
 
         if (this.state.session.capabilities.publish) {
-            publisher.on('accessAllowed' , () => {
+            publisher.on('accessAllowed', () => {
                 this.state.session.publish(publisher).then(() => {
                     this.updateSubscribers();
                     this.localUserAccessAllowed = true;
-                    console.log("connectwebcam4444",localUser.getStreamManager().stream.streamId);
+                    console.log("connectwebcam4444", localUser.getStreamManager().stream.streamId);
                     // if(this.state.iscamswitch || this.state.isstopsharescreen){
                     //     this.setState({iscamswitch:false,isstopsharescreen:false});
                     // }
                     if (this.props.joinSession) {
                         this.props.joinSession();
                     }
-                   
+
                 });
             });
 
@@ -176,50 +176,50 @@ class VideoRoomComponent extends Component {
         localUser.setConnectionId(this.state.session.connection.connectionId);
         localUser.setScreenShareActive(false);
         localUser.setStreamManager(publisher);
-        console.log("connectwebcam1111",localUser.getStreamManager().stream.streamId);
+        console.log("connectwebcam1111", localUser.getStreamManager().stream.streamId);
         this.subscribeToUserChanged();
         this.subscribeToStreamDestroyed();
-        console.log("connectwebcam222",localUser.getStreamManager().stream.streamId);
+        console.log("connectwebcam222", localUser.getStreamManager().stream.streamId);
         this.sendSignalUserChanged({ isScreenShareActive: localUser.isScreenShareActive() });
 
         this.setState({ localUser: localUser }, () => {
             this.state.localUser.getStreamManager().on('streamPlaying', (e) => {
-                console.log("connectwebcam333",localUser.getStreamManager().stream.streamId);
+                console.log("connectwebcam333", localUser.getStreamManager().stream.streamId);
                 this.updateLayout();
                 publisher.videos[0].video.parentElement.classList.remove('custom-class');
-                
+
             });
         });
-        
+
     }
 
     updateSubscribers() {
         var subscribers = this.remotes;
-       console.log("subscribers length"+subscribers.length)
+        console.log("subscribers length" + subscribers.length)
         // if(subscribers.length > 1){
         //     alert("users limit exceeded");
         // }
         // else{
-            this.setState(
-                {
-                    subscribers: subscribers,
-                },
-                () => {
-                    if (this.state.localUser) {
-                        this.sendSignalUserChanged({
-                            isAudioActive: this.state.localUser.isAudioActive(),
-                            isVideoActive: this.state.localUser.isVideoActive(),
-                            nickname: this.state.localUser.getNickname(),
-                            isScreenShareActive: this.state.localUser.isScreenShareActive(),
-                        });
-                    }
-                    this.updateLayout();
-                    console.log("connectwebcam6666",localUser.getStreamManager().stream.streamId);
-                },
-            );
-    
+        this.setState(
+            {
+                subscribers: subscribers,
+            },
+            () => {
+                if (this.state.localUser) {
+                    this.sendSignalUserChanged({
+                        isAudioActive: this.state.localUser.isAudioActive(),
+                        isVideoActive: this.state.localUser.isVideoActive(),
+                        nickname: this.state.localUser.getNickname(),
+                        isScreenShareActive: this.state.localUser.isScreenShareActive(),
+                    });
+                }
+                this.updateLayout();
+                console.log("connectwebcam6666", localUser.getStreamManager().stream.streamId);
+            },
+        );
+
         // }
-       
+
     }
 
     leaveSession() {
@@ -250,7 +250,7 @@ class VideoRoomComponent extends Component {
         this.sendSignalUserChanged({ isVideoActive: localUser.isVideoActive() });
         this.setState({ localUser: localUser });
     }
-    async getCamerasList () {
+    async getCamerasList() {
 
         if (!this.OV) {
             return null
@@ -261,24 +261,24 @@ class VideoRoomComponent extends Component {
         return videoDevices;
 
     }
-    async camSwitch () {
+    async camSwitch() {
 
         const devices = await this.getCamerasList()
         let current = devices.findIndex((item) => this.state.deviceId === item.deviceId)
-        if ( current < 0 ) {
+        if (current < 0) {
             current = 0;
         }
         var newDevice
-        if ( current+1 >= devices.length ) {
+        if (current + 1 >= devices.length) {
             newDevice = devices[0]
         } else {
-            newDevice = devices[current+1]
+            newDevice = devices[current + 1]
         }
         // if(this.state.selectedStreamUser!==undefined && this.state.selectedStreamUser.isLocal()){
         //     this.setState({
         //         iscamswitch:true
         //     })
-    
+
         // }
         // Unpublishing the old publisher
         this.state.session.unpublish(localUser.getStreamManager());
@@ -315,8 +315,8 @@ class VideoRoomComponent extends Component {
     }
 
     subscribeToStreamCreated() {
-        console.log("remotes length "+this.remotes.length)
-     //   if( this.remotes.length <=1 ){
+        console.log("remotes length " + this.remotes.length)
+        //   if( this.remotes.length <=1 ){
         this.state.session.on('streamCreated', (event) => {
             const subscriber = this.state.session.subscribe(event.stream, undefined);
             // var subscribers = this.state.subscribers;
@@ -331,11 +331,11 @@ class VideoRoomComponent extends Component {
             const nickname = event.stream.connection.data.split('%')[0];
             newUser.setNickname(JSON.parse(nickname).clientData);
             this.remotes.push(newUser);
-            if(this.localUserAccessAllowed) {
+            if (this.localUserAccessAllowed) {
                 this.updateSubscribers();
             }
         });
-    //}
+        //}
     }
 
     subscribeToStreamDestroyed() {
@@ -356,7 +356,7 @@ class VideoRoomComponent extends Component {
         this.state.session.on('signal:userChanged', (event) => {
             let remoteUsers = this.state.subscribers;
             console.log('REMOTE USERS2222: ', remoteUsers.length);
-     //       if(remoteUsers.length <=1){
+            //       if(remoteUsers.length <=1){
             remoteUsers.forEach((user) => {
                 if (user.getConnectionId() === event.from.connectionId) {
                     const data = JSON.parse(event.data);
@@ -382,13 +382,13 @@ class VideoRoomComponent extends Component {
                 },
                 () => this.checkSomeoneShareScreen(),
             );
-       //     }
+            //     }
         });
     }
 
     updateLayout() {
         setTimeout(() => {
-           // this.layout.updateLayout();
+            // this.layout.updateLayout();
         }, 20);
     }
 
@@ -433,7 +433,7 @@ class VideoRoomComponent extends Component {
 
     screenShare() {
         const videoSource = 'screen'; //input stream only from screen
-       
+
         const publisher = this.OV.initPublisher(
             undefined,
             {
@@ -454,26 +454,26 @@ class VideoRoomComponent extends Component {
                 }
             },
         );
-debugger
-console.log("screen share111",localUser.getStreamManager().stream.streamId)
+        debugger
+        console.log("screen share111", localUser.getStreamManager().stream.streamId)
         publisher.once('accessAllowed', () => {
             this.state.session.unpublish(localUser.getStreamManager());
             localUser.setStreamManager(publisher);
-            console.log("screen share222",localUser.getStreamManager().stream.streamId)
-           // this.setState({selectedStreamID:localUser.getStreamManager().stream.streamId});
+            console.log("screen share222", localUser.getStreamManager().stream.streamId)
+            // this.setState({selectedStreamID:localUser.getStreamManager().stream.streamId});
             this.state.session.publish(localUser.getStreamManager()).then(() => {
                 debugger
-                console.log("screen share333",localUser.getStreamManager().stream.streamId)
-              //  this.setState({selectedStreamID:localUser.getStreamManager().stream.streamId});
+                console.log("screen share333", localUser.getStreamManager().stream.streamId)
+                //  this.setState({selectedStreamID:localUser.getStreamManager().stream.streamId});
                 localUser.setScreenShareActive(true);
                 this.setState({ localUser: localUser }, () => {
-                    console.log("screen share444",localUser.getStreamManager().stream.streamId)
+                    console.log("screen share444", localUser.getStreamManager().stream.streamId)
                     this.sendSignalUserChanged({ isScreenShareActive: localUser.isScreenShareActive() });
                 });
             });
         });
         publisher.on('streamPlaying', () => {
-        //    this.setState({selectedStreamID:localUser.getStreamManager().stream.streamId});
+            //    this.setState({selectedStreamID:localUser.getStreamManager().stream.streamId});
             this.updateLayout();
             publisher.videos[0].video.parentElement.classList.remove('custom-class');
         });
@@ -551,15 +551,15 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
 
     // }
     renderStreams() {
-       
-        
-     }
-     handleSelectStream = (isFullScreen,isSelectedStream,selectedStreamID,selectedStreamUser) => {      
-    //    this.setState({language: langValue});
-    if(isFullScreen){
-     //   this.toggleFullscreen();
+
+
     }
-        this.setState({isFullScreen:isFullScreen,isSelectedStream:isSelectedStream,selectedStreamID:selectedStreamID,selectedStreamUser:selectedStreamUser});
+    handleSelectStream = (isFullScreen, isSelectedStream, selectedStreamID, selectedStreamUser) => {
+        //    this.setState({language: langValue});
+        if (isFullScreen) {
+            //   this.toggleFullscreen();
+        }
+        this.setState({ isFullScreen: isFullScreen, isSelectedStream: isSelectedStream, selectedStreamID: selectedStreamID, selectedStreamUser: selectedStreamUser });
 
 
     }
@@ -569,40 +569,40 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
         const mySessionId = this.state.mySessionId;
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
-        var that=this;
-        console.log("subscribers List "+this.state.subscribers)
-        console.log("subscribers List "+this.state.selectedStreamID)
-        
-        if(this.state.isSelectedStream){
-            var isStreamAvailable=false;
+        var that = this;
+        console.log("subscribers List " + this.state.subscribers)
+        console.log("subscribers List " + this.state.selectedStreamID)
+
+        if (this.state.isSelectedStream) {
+            var isStreamAvailable = false;
             this.state.subscribers.forEach(sub => {
-                    if(sub.streamManager.stream.streamId==this.state.selectedStreamID){
-                        isStreamAvailable=true;
-                    }
+                if (sub.streamManager.stream.streamId == this.state.selectedStreamID) {
+                    isStreamAvailable = true;
+                }
             });
-            if(!isStreamAvailable && localUser.getStreamManager().stream.streamId!=this.state.selectedStreamID){
+            if (!isStreamAvailable && localUser.getStreamManager().stream.streamId != this.state.selectedStreamID) {
                 this.setState({
-                    isSelectedStream:false,
-                    selectedStreamID:"",
-                    selectedStreamUser:undefined,
-                    isFullScreen:false,
-        
+                    isSelectedStream: false,
+                    selectedStreamID: "",
+                    selectedStreamUser: undefined,
+                    isFullScreen: false,
+
                 });
-        
+
             }
-    
+
         }
-        if(!this.state.isSelectedStream && this.state.subscribers.length >1){
+        if (!this.state.isSelectedStream && this.state.subscribers.length > 1) {
             this.setState({
-                isSelectedStream:true,
-                selectedStreamID:localUser.getStreamManager().stream.streamId,
-                selectedStreamUser:localUser,
-                isFullScreen:false
-    
+                isSelectedStream: true,
+                selectedStreamID: localUser.getStreamManager().stream.streamId,
+                selectedStreamUser: localUser,
+                isFullScreen: false
+
             });
         }
 
-        
+
         return (
             <div className="container" id="container">
                 <ToolbarComponent
@@ -620,99 +620,100 @@ console.log("screen share111",localUser.getStreamManager().stream.streamId)
                     leaveSession={this.leaveSession}
                     toggleChat={this.toggleChat}
                 />
-       
 
-	       <div id="mySubsList" style={{display:'none'}}
-> 
 
-	         {this.state.session !== undefined && this.state.session.fetch}
-	         
-		       {/* //this.state.session.fetch() //update session obj properties
+                <div id="mySubsList" style={{ display: 'none' }}
+                >
+
+                    {this.state.session !== undefined && this.state.session.fetch}
+
+                    {/* //this.state.session.fetch() //update session obj properties
                  //this.state.session.connections
                  //(connectionId, audioActive, videoActive, screenShareActive, nickname, streamManager, type)
 		          */}
-	         
-			    {this.state.session !== undefined  && ( 
-			        this.state.subscribers.map((sub, i) => (
-                 <div>
-		             {/*conn.connectionId*/} 
-		             {/*conn.connectionProperties.role*/}
-                     {/*sub.<properties from UserModel.js*/}
-                     <li>key:{sub.connectionId}</li>
-		                 <li>ConnectionID:{sub.connectionId}</li>
-                     <li>NickName:{sub.nickname}</li>
-                     <li>Type:{sub.type}</li>
-		             </div> 
-		          ))
-		        )}
-	          {this.state.session !== undefined && (
-			        <div>Ses-Current-Cap:{JSON.stringify(this.state.session.capabilities)}</div>
-		        )}
 
-	         {this.state.session === undefined && ( <p>Session is undefined </p>)}
+                    {this.state.session !== undefined && (
+                        this.state.subscribers.map((sub, i) => (
+                            <div>
+                                {/*conn.connectionId*/}
+                                {/*conn.connectionProperties.role*/}
+                                {/*sub.<properties from UserModel.js*/}
+                                <li>key:{sub.connectionId}</li>
+                                <li>ConnectionID:{sub.connectionId}</li>
+                                <li>NickName:{sub.nickname}</li>
+                                <li>Type:{sub.type}</li>
+                            </div>
+                        ))
+                    )}
+                    {this.state.session !== undefined && (
+                        <div>Ses-Current-Cap:{JSON.stringify(this.state.session.capabilities)}</div>
+                    )}
 
-	      </div>
-	              {/*<DialogExtensionComponent showDialog={this.state.showExtensionDialog} cancelClicked={this.closeDialogExtension} />*/}
-                  <div id="selectedStream" className={this.state.isFullScreen? 'row selectedStream fullscreenStream' :'row selectedStream' } >
+                    {this.state.session === undefined && (<p>Session is undefined </p>)}
+
+                </div>
+                {/*<DialogExtensionComponent showDialog={this.state.showExtensionDialog} cancelClicked={this.closeDialogExtension} />*/}
+                <div id="selectedStream" className={this.state.isFullScreen ? 'row selectedStream fullscreenStream' : 'row selectedStream'} >
                     {/* {button} */}
                     <Routes>
-                    {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                                            <Route path="/about" element={ <StreamComponent user={localUser} toggleFullscreen={this.toggleFullscreen} 
-                                            sessionId={this.state.mySessionId}  screenSize={this.state.screenSize} handleNickname={this.nicknameChanged} />}/>
+                        {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                            <Route path="/about" element={<StreamComponent user={localUser} toggleFullscreen={this.toggleFullscreen}
+                                sessionId={this.state.mySessionId} screenSize={this.state.screenSize} handleNickname={this.nicknameChanged} />} />
 
-                    )}
-                     {/* <Route path="/about" />
+                        )}
+                        {/* <Route path="/about" />
                      <Route path="/about" element={ <StreamComponent user={localUser} toggleFullscreen={this.toggleFullscreen} sessionId={this.state.mySessionId}  screenSize={this.state.screenSize} handleNickname={this.nicknameChanged} />}>
                   
                 </Route> */}
-                </Routes>
+                    </Routes>
 
-                {this.state.isSelectedStream && this.state.selectedStreamUser.isLocal() && (
-                                        <StreamComponent isbigstream={true}     isFullScreen={this.state.isFullScreen}  onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
-                                        user={localUser} subscribers={this.state.subscribers} toggleFullscreen={this.toggleFullscreen} handleNickname={this.nicknameChanged} />
-            
+                    {this.state.isSelectedStream && this.state.selectedStreamUser.isLocal() && (
+                        <StreamComponent isbigstream={true} isFullScreen={this.state.isFullScreen} onSelectStream={this.handleSelectStream} isSelectedStream={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID}
+                            user={localUser} subscribers={this.state.subscribers} toggleFullscreen={this.toggleFullscreen} handleNickname={this.nicknameChanged} />
+
                     )}
                     {this.state.isSelectedStream && !this.state.selectedStreamUser.isLocal() && (
-                   <StreamComponent  
-                   isFullScreen={this.state.isFullScreen} onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
-                   user={this.state.selectedStreamUser}  streamId={this.state.selectedStreamUser.streamManager.stream.streamId} />
-                        )}
+                        <StreamComponent
+                            isFullScreen={this.state.isFullScreen} onSelectStream={this.handleSelectStream} isSelectedStream={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID}
+                            user={this.state.selectedStreamUser} subscribers={this.state.subscribers} streamId={this.state.selectedStreamUser.streamManager.stream.streamId} />
+                    )}
 
                 </div>
 
-                <div id="layout" className={this.state.isSelectedStream ? 'boundssmall bounds' :'bounds row' }>
-                {/* {this.renderStreams()} */}
-	                  {/* SHOW my own VideoStream  (so I can see me) */}
-                      {((!this.state.isSelectedStream && this.state.selectedStreamUser==undefined) ||(this.state.isSelectedStream && this.state.selectedStreamUser!=undefined &&!this.state.selectedStreamUser.isLocal())) && localUser !== undefined && localUser.getStreamManager() !== undefined && (       
-                            <StreamComponent 
-                             isFullScreen={this.state.isFullScreen} onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID} 
+                <div id="layout" className={this.state.isSelectedStream ? 'boundssmall bounds' : 'bounds row'} style={this.state.isSelectedStream ? this.state.subscribers.length < 6 ? { height: 20 * this.state.subscribers.length + '%' }  : { height: 100 + "%" } : {}}>
+
+                    {/* {this.renderStreams()} */}
+                    {/* SHOW my own VideoStream  (so I can see me) */}
+                    {((!this.state.isSelectedStream && this.state.selectedStreamUser == undefined) || (this.state.isSelectedStream && this.state.selectedStreamUser != undefined && !this.state.selectedStreamUser.isLocal())) && localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                        <StreamComponent
+                            isFullScreen={this.state.isFullScreen} onSelectStream={this.handleSelectStream} isSelectedStream={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID}
                             user={localUser} subscribers={this.state.subscribers} toggleFullscreen={this.toggleFullscreen} handleNickname={this.nicknameChanged} />
                     )}
-	                  {/*SHOW One video stream component for each REMOTE USER (subscriber)*/}
-                      {this.state.subscribers.map(sub => {
+                    {/*SHOW One video stream component for each REMOTE USER (subscriber)*/}
+                    {this.state.subscribers.map(sub => {
                         //    console.log('sub received: ',!this.state.isSelectedStream && (this.state.selectedStreamUser==undefined || this.state.selectedStreamUser.streamManager.stream.streamId!=sub.streamManager.stream.streamId)                           );
-    if(((!this.state.isSelectedStream && this.state.selectedStreamUser==undefined) || (this.state.isSelectedStream && this.state.selectedStreamUser!=undefined && that.state.selectedStreamUser.streamManager.stream.streamId!=sub.streamManager.stream.streamId))){
-return <StreamComponent 
-isFullScreen={this.state.isFullScreen} onSelectStream={that.handleSelectStream} isSelectedStream ={that.state.isSelectedStream} selectedStreamID={that.state.selectedStreamID} 
-                          user={sub}  streamId={sub.streamManager.stream.streamId} /> 
+                        if (((!this.state.isSelectedStream && this.state.selectedStreamUser == undefined) || (this.state.isSelectedStream && this.state.selectedStreamUser != undefined && that.state.selectedStreamUser.streamManager.stream.streamId != sub.streamManager.stream.streamId))) {
+                            return <StreamComponent
+                                isFullScreen={this.state.isFullScreen} onSelectStream={that.handleSelectStream} isSelectedStream={that.state.isSelectedStream} selectedStreamID={that.state.selectedStreamID}
+                                user={sub} subscribers={this.state.subscribers} streamId={sub.streamManager.stream.streamId} />
                         }
                     }
-                          )}
-    
-    {/* {this.state.subscribers.map((sub, i) => (
+                    )}
+
+                    {/* {this.state.subscribers.map((sub, i) => (
                             <StreamComponent onSelectStream={this.handleSelectStream} isSelectedStream ={this.state.isSelectedStream} selectedStreamID={this.state.selectedStreamID}
                             index = {i} user={sub}  streamId={sub.streamManager.stream.streamId} />
                        
                     ))} */}
 
-                  
 
 
 
-                   
 
-	                  {/*SHOW CHAT COMPONENT ??? */} 
-	                  {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+
+
+                    {/*SHOW CHAT COMPONENT ??? */}
+                    {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                         <div className="OT_root OT_publisher custom-class" style={chatDisplay}>
                             <ChatComponent
                                 user={localUser}
@@ -722,9 +723,9 @@ isFullScreen={this.state.isFullScreen} onSelectStream={that.handleSelectStream} 
                             />
                         </div>
                     )}
-		    
+
                 </div>
-            </div> 
+            </div>
         );
     }
 
@@ -770,11 +771,11 @@ isFullScreen={this.state.isFullScreen} onSelectStream={that.handleSelectStream} 
                         if (
                             window.confirm(
                                 'No connection to OpenVidu Server. This may be a certificate error at "' +
-                                    this.OPENVIDU_SERVER_URL +
-                                    '"\n\nClick OK to navigate and accept it. ' +
-                                    'If no certificate warning is shown, then check that your OpenVidu Server is up and running at "' +
-                                    this.OPENVIDU_SERVER_URL +
-                                    '"',
+                                this.OPENVIDU_SERVER_URL +
+                                '"\n\nClick OK to navigate and accept it. ' +
+                                'If no certificate warning is shown, then check that your OpenVidu Server is up and running at "' +
+                                this.OPENVIDU_SERVER_URL +
+                                '"',
                             )
                         ) {
                             window.location.assign(this.OPENVIDU_SERVER_URL + '/accept-certificate');
